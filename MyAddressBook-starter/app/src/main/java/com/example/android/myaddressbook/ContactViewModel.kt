@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.os.AsyncTask
+import com.example.android.dao.DatabaseInitializer
 import com.example.android.model.Contact
 
 class ContactViewModel(application: Application): AndroidViewModel(application) {
@@ -11,10 +12,12 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
     // não é privado, porque será observado
     val contactsList: LiveData<List<Contact>>
     private val repository: ContactRepository
+    private lateinit var mDb: ContactDatabase
 
 
     init {
-        val database = ContactDatabase.getInstance(application.applicationContext)
+        createDb();
+        val database = ContactDatabase.getInMemoryDatabase(application.applicationContext)
         val dao = database.contactDao()
         repository = ContactRepository(dao)
         contactsList = repository.listAll()
@@ -42,5 +45,12 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         override fun doInBackground(vararg params: Unit?) {
             action()
         }
+    }
+
+    fun createDb() {
+        mDb = ContactDatabase.getInMemoryDatabase(this.getApplication<Application>())
+
+        //Populate it with initial data
+        DatabaseInitializer.populateAsync(mDb)
     }
 }

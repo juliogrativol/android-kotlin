@@ -18,16 +18,19 @@ package com.example.android.model
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.support.annotation.NonNull;
 
 @Entity
 data class Contact(
 
         @PrimaryKey
+        @NonNull
         @ColumnInfo(name = "first_name")
-        val firstName: String,
+        public val firstName: String,
 
+        @NonNull
         @ColumnInfo(name = "last_name")
-        val lastName: String,
+        public val lastName: String,
 
         @ColumnInfo(name = "email")
-        var email: String?)
+        public var email: String?)
