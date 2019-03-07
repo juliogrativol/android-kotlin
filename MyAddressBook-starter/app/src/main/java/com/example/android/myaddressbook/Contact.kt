@@ -21,7 +21,13 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Contact(
-        @PrimaryKey var uid: Int,
-        @ColumnInfo(name = "first_name") val firstName: String,
-        @ColumnInfo(name = "last_name") val lastName: String,
-        @ColumnInfo(name = "email") var email: String?)
+
+        @PrimaryKey
+        @ColumnInfo(name = "first_name")
+        val firstName: String,
+
+        @ColumnInfo(name = "last_name")
+        val lastName: String,
+
+        @ColumnInfo(name = "email")
+        var email: String?)
