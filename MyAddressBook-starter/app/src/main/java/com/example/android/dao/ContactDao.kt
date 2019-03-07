@@ -1,11 +1,12 @@
-package com.example.android.myaddressbook
+package com.example.android.dao
 
 import android.arch.lifecycle.LiveData
-import androidx.room.*
+import android.arch.persistence.room.*
+import com.example.android.model.Contact
 
 @Dao
 interface ContactDao {
-    @Query("SELECT * FROM Pharmacy")
+    @Query("SELECT * FROM Contact")
     fun listAll():LiveData<List<Contact>>
 
     @Insert

@@ -1,6 +1,8 @@
 package com.example.android.myaddressbook
 
 import android.arch.lifecycle.LiveData
+import com.example.android.dao.ContactDao
+import com.example.android.model.Contact
 
 class ContactRepository(private val contactDAO: ContactDao) {
 

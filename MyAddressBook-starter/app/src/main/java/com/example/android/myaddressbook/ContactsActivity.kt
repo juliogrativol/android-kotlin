@@ -18,10 +18,10 @@ package com.example.android.myaddressbook
 import kotlinx.android.synthetic.main.activity_contacts.*
 import kotlinx.android.synthetic.main.content_contacts.*
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -39,11 +39,10 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.android.model.Contact
 
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.contact_list_item.*
 import kotlinx.android.synthetic.main.contact_list_item.view.*
-import kotlinx.android.synthetic.main.input_contact_dialog.*
 import kotlinx.android.synthetic.main.input_contact_dialog.view.*
 
 import org.json.JSONArray
@@ -66,6 +65,8 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
 
     private var mEntryValid = false
 
+    private lateinit var contactViewModel: ContactViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
@@ -77,6 +78,8 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
         setSupportActionBar(toolbar)
         setupRecyclerView()
 
+        contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
+
         fab.setOnClickListener { showAddContactDialog(-1) }
     }
 
@@ -87,6 +90,7 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
     private fun loadContacts(): ArrayList<Contact> {
         val contactSet = mPrefs.getStringSet(CONTACT_KEY, HashSet())
         val contacts = ArrayList<Contact>()
+
         return contactSet.mapTo(ArrayList()) {
             Gson().fromJson(it, Contact::class.java)
         }
