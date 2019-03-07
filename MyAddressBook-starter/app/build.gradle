@@ -26,6 +26,10 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.google.code.gson:gson:2.8.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    implementation "androidx.room:room-runtime:2.1.0-alpha02"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha02" // For Kotlin use kapt instead of annotationProcessor
+
 }
 repositories {
     mavenCentral()

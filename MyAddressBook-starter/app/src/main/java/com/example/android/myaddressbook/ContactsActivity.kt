@@ -196,7 +196,7 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
                     mContacts[contactPosition] = editedContact
                     mAdapter.notifyItemChanged(contactPosition)
                 } else {
-                    val newContact = Contact(
+                    val newContact = Contact(0,
                             mFirstNameEdit.text.toString(),
                             mLastNameEdit.text.toString(),
                             mEmailEdit.text.toString()
@@ -274,7 +274,7 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
             val contactsJson = JSONArray(contactsString)
             for (i in 0 until contactsJson.length()) {
                 val contactJson = contactsJson.getJSONObject(i)
-                val contact = Contact(
+                val contact = Contact(0,
                         contactJson.getString("first_name"),
                         contactJson.getString("last_name"),
                         contactJson.getString("email"))

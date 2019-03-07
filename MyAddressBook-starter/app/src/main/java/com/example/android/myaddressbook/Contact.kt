@@ -15,4 +15,13 @@
  */
 package com.example.android.myaddressbook
 
-internal class Contact(val firstName: String, val lastName: String, var email: String?)
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class Contact(
+        @PrimaryKey var uid: Int,
+        @ColumnInfo(name = "first_name") val firstName: String,
+        @ColumnInfo(name = "last_name") val lastName: String,
+        @ColumnInfo(name = "email") var email: String?)
