@@ -21,4 +21,8 @@ class ContactRepository(private val contactDAO: ContactDao) {
     fun delete(contact: Contact){
         contactDAO.delete(contact)
     }
+
+    fun update(contact: Contact){
+        contactDAO.update(contact)
+    }
 }

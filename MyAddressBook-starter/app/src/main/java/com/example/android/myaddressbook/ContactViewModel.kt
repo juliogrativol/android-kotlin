@@ -36,6 +36,12 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
+    fun update(contact: Contact){
+        DoAsync {
+            repository.update(contact)
+        }
+    }
+
     class DoAsync(val action: ()->Unit): AsyncTask<Unit, Unit, Unit>() {
 
         init {

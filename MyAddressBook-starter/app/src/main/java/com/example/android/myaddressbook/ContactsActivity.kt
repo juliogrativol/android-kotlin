@@ -132,7 +132,8 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder,
                                           direction: Int) {
                         val position = viewHolder.adapterPosition
-                        mContacts.removeAt(position)
+                        val contact = mContacts.removeAt(position)
+                        contactViewModel.delete(contact)
                         mAdapter.notifyItemRemoved(position)
                         saveContacts()
                     }
@@ -201,6 +202,7 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
                     val editedContact = mContacts[contactPosition]
                     editedContact.email = mEmailEdit.text.toString()
                     mContacts[contactPosition] = editedContact
+                    contactViewModel.update(editedContact)
                     mAdapter.notifyItemChanged(contactPosition)
                 } else {
                     val newContact = Contact(
@@ -210,6 +212,7 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
                     )
 
                     mContacts.add(newContact)
+                    contactViewModel.insert(newContact)
                     mAdapter.notifyItemInserted(mContacts.size)
                 }
                 saveContacts()
