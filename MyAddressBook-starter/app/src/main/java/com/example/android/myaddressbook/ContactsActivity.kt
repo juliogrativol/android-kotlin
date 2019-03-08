@@ -18,6 +18,7 @@ package com.example.android.myaddressbook
 import kotlinx.android.synthetic.main.activity_contacts.*
 import kotlinx.android.synthetic.main.content_contacts.*
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.SharedPreferences
@@ -50,7 +51,6 @@ import org.json.JSONException
 
 import java.io.IOException
 import java.util.ArrayList
-import java.util.HashSet
 
 class ContactsActivity : AppCompatActivity(), TextWatcher {
 
@@ -80,20 +80,23 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
 
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
 
+        subscribeContacts();
+
         fab.setOnClickListener { showAddContactDialog(-1) }
     }
 
-    /**
-     * Loads the contacts from SharedPreferences, and deserializes them into
-     * a Contact data type using Gson.
-     */
-    private fun loadContacts(): ArrayList<Contact> {
-        val contactSet = mPrefs.getStringSet(CONTACT_KEY, HashSet())
-        val contacts = ArrayList<Contact>()
+    private fun subscribeContacts() {
+        contactViewModel.contactsList.observe(this, Observer<List<Contact>>
+        {
+            result ->
+            mAdapter.clearContacts()
+            mAdapter.addAllContacts(result)
+            mAdapter.notifyDataSetChanged()
+        })
+    }
 
-        return contactSet.mapTo(ArrayList()) {
-            Gson().fromJson(it, Contact::class.java)
-        }
+    private fun loadContacts(): ArrayList<Contact> {
+        return ArrayList()
     }
 
     /**
@@ -368,6 +371,16 @@ class ContactsActivity : AppCompatActivity(), TextWatcher {
 
         override fun getItemCount(): Int {
             return mContacts.size
+        }
+
+        fun addAllContacts(contacts : List<Contact>? ){
+            if (contacts != null) {
+                mContacts.addAll(contacts);
+            }
+        }
+
+        fun clearContacts(){
+            mContacts.clear()
         }
 
         internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

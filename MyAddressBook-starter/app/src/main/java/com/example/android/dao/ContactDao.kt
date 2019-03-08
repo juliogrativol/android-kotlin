@@ -20,4 +20,7 @@ interface ContactDao {
 
     @Delete
     fun delete(contact: Contact)
+
+    @Query("DELETE FROM Contact")
+    abstract fun deleteAll()
 }

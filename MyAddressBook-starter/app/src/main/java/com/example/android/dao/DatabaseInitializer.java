@@ -45,7 +45,7 @@ public class DatabaseInitializer {
     }
 
     private static void populateWithTestData(ContactDatabase db) {
-
+        db.contactDao().deleteAll();
 
         try {
             addContact(db, "julio cesar 1", "grativol", "teste@teste.com.br");
